@@ -60,6 +60,6 @@ shipping_host: shipping.yanvisol.online
 payment_host: payment.yanvisol.online
 
 
-mysql_root_password: "{{vault_mysql_root_password}}"
-rabbitmq_user: "{{vault_rabbitmq_user}}"
-rabbitmq_password: "{{vault_rabbitmq_password}}"
+mysql_root_password: "{{ vault_mysql_root_password }}"
+rabbitmq_user: "{{ vault_rabbitmq_user }}"
+rabbitmq_password: "{{ vault_rabbitmq_password }}"
