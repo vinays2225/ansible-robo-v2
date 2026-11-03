@@ -1,0 +1,53 @@
+- name: Create Security groups and add inbound rules
+  hosts: local
+  connection: local
+  vars:
+    sg_group_names: ["mysql", "mongodb", "rabbitmq", "redis", "catalogue", "user", "cart", "shipping", "payment", "dispatch", "frontend"]
+    
+    app_name: "roboshop"
+    sg_action: "create"
+  tasks:
+    - name: create security groups
+      amazon.aws.ec2_security_group:
+        name: "{{ app_name }}-{{ item }}"
+        description: "Used for allow {{ item }} to aother servers."
+        region: "us-east-1" 
+      loop: "{{ sg_group_names }}"
+      when: sg_action == "create"
+
+    #Get all SG info
+    - name: Get  security groups
+      amazon.aws.ec2_security_group_info:
+        filters:
+          group-name: "{{app_name}}-redis"
+      register: item_vpc_id
+
+    # - name: Display result of SG
+    #   debug:
+    #     msg: " SG: {{ item_vpc_id }}"   
+
+    - name: add or update ingress rules
+      amazon.aws.ec2_security_group:
+        name: "{{ app_name }}-{{ item.name }}"
+        description: "Applying secure group ingress layout"
+        region: "us-east-1"
+        rules: "{{ item.inbound_rules }}" 
+      loop: "{{ sg_components }}"      
+
+
+    # Get all SG info
+    # - name: Get All security groups
+    #   amazon.aws.ec2_security_group_info:
+    #   register: all_sg_group_out 
+
+    - name: "Delete group by its id"
+      amazon.aws.ec2_security_group:
+        group_id: "{{item}}"
+        state: absent
+      loop:
+      - "sg-0f0ac6e1832b1447b"
+      when: sg_action == "delete"  
+
+
+
+

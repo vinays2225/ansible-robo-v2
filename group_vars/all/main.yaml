@@ -1,0 +1,60 @@
+sg_components:
+  - name: "mysql"
+    inbound_rules:
+      - { proto: "tcp", from_port: 3306, to_port: 3306, group_name: "roboshop-shipping", rule_desc: "Allow MySQL from shipping" }
+      
+  - name: "mongodb"
+    inbound_rules:    
+      - { proto: "tcp", from_port: 27017, to_port: 27017, group_name: "roboshop-user", rule_desc: "Allow MongoDB from user" }
+      - { proto: "tcp", from_port: 27017, to_port: 27017, group_name: "roboshop-catalogue", rule_desc: "Allow MongoDB from catalogue" }
+      
+  - name: "rabbitmq"
+    inbound_rules:    
+      - { proto: "tcp", from_port: 5672, to_port: 5672, group_name: "roboshop-payment", rule_desc: "Allow RabbitMQ from payment" }
+      - { proto: "tcp", from_port: 5672, to_port: 5672, group_name: "roboshop-dispatch", rule_desc: "Allow RabbitMQ from dispatch" }
+      - { proto: "tcp", from_port: 15672, to_port: 15672, group_name: "My-IP", rule_desc: "Allow RabbitMQ from dispatch" }
+      
+  - name: "redis"
+    inbound_rules:    
+      - { proto: "tcp", from_port: 6379, to_port: 6379, group_name: "roboshop-user", rule_desc: "Allow Redis from user" }
+      - { proto: "tcp", from_port: 6379, to_port: 6379, group_name: "roboshop-cart", rule_desc: "Allow Redis from cart" }
+      
+  - name: "catalogue"
+    inbound_rules:
+      - { proto: "tcp", from_port: 8080, to_port: 8080, group_name: "roboshop-frontend", rule_desc: "Allow Catalogue from frontend" }
+      - { proto: "tcp", from_port: 8080, to_port: 8080, group_name: "roboshop-cart", rule_desc: "Allow Catalogue from cart" }
+      
+  - name: "user"
+    inbound_rules:    
+      - { proto: "tcp", from_port: 8080, to_port: 8080, group_name: "roboshop-frontend", rule_desc: "Allow User from frontend" }
+      - { proto: "tcp", from_port: 8080, to_port: 8080, group_name: "roboshop-payment", rule_desc: "Allow User from payment" }
+      
+  - name: "cart"
+    inbound_rules:    
+      - { proto: "tcp", from_port: 8080, to_port: 8080, group_name: "roboshop-frontend", rule_desc: "Allow Cart from frontend" }
+      - { proto: "tcp", from_port: 8080, to_port: 8080, group_name: "roboshop-payment", rule_desc: "Allow Cart from payment" }
+      - { proto: "tcp", from_port: 8080, to_port: 8080, group_name: "roboshop-shipping", rule_desc: "Allow Cart from shipping" }
+      
+  - name: "shipping"
+    inbound_rules:
+      - { proto: "tcp", from_port: 8080, to_port: 8080, group_name: "roboshop-frontend", rule_desc: "Allow Shipping from frontend" }
+      
+  - name: "payment"
+    inbound_rules:
+      - { proto: "tcp", from_port: 8080, to_port: 8080, group_name: "roboshop-frontend", rule_desc: "Allow Payment from frontend" }
+  - name: "frontend"
+    inbound_rules:
+      - { proto: "tcp", from_port: 80, to_port: 80, cidr_ip: 0.0.0.0/0, rule_desc: "Allow public from frontend" }
+
+
+ansible_user: ec2-user
+ansible_password: DevOps321
+mongodb_host: mongodb.yanvisol.online
+redis_host: redis.yanvisol.online
+mysql_host: mysql.yanvisol.online
+rabbitmq_host: rabbitmq.yanvisol.online
+catalogue_host: catalogue.yanvisol.online
+user_host: user.yanvisol.online
+cart_host: cart.yanvisol.online
+shipping_host: shipping.yanvisol.online
+payment_host: payment.yanvisol.online

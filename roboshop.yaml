@@ -1,0 +1,58 @@
+# Create Instance
+- name: Create instance and Add  into Rout53 A record
+  hosts: local
+  connection:  local
+  vars:
+    instance_names: ["mysql", "mongodb", "rabbitmq", "redis", "catalogue", "user", "cart", "shipping", "payment", "dispatch", "frontend"]
+    #instance_names: ["mongodb", "redis", "mysql", "rabbitmq"]
+    app_name: "roboshop"
+    a_action: create
+    domain_name: yanvisol.online 
+    ami_id: ami-0055977a6e828a4f4
+  tasks:
+    - name: Create Instance
+      amazon.aws.ec2_instance:
+        name: "{{app_name}}-{{item}}"
+        image_id: "{{ami_id}}"
+        instance_type: t3.micro
+        security_groups: 
+          - "My-IP" 
+          - "{{app_name}}-{{item}}"
+        region: us-east-1  
+      loop: "{{ instance_names }}"
+      when: a_action == "create"
+      register: ec2_output
+
+  # Create Route53 A record
+    - name: Create route53 ra record
+      amazon.aws.route53:
+        state: present
+        zone: "{{domain_name}}"
+        record: "{{ item.item }}.{{ domain_name }}"
+        type: A
+        ttl: 1
+        value: "{{ item.instances[0].private_ip_address }}"
+        overwrite: true
+      loop: "{{ec2_output.results}}"
+      when: a_action == "create"
+
+  # Delete Route53 A records
+    - name: Delete Route 53 A records
+      amazon.aws.route53:
+        state: absent
+        zone: "{{ domain_name }}"
+        record: "{{ item }}.{{ domain_name }}"
+        ttl: 1
+        type: A
+      loop: "{{ instance_names }}"
+      when: a_action == "delete"  
+
+  # Delete Instances
+    - name: Delete instances
+      amazon.aws.ec2_instance:
+        state: absent
+        name: "{{app_name}}-{{item}}"
+        region: us-east-1
+        wait: false
+      loop: "{{ instance_names }}"
+      when: a_action == "delete"    
