@@ -33,7 +33,7 @@
         region: "us-east-1"
         rules: "{{ item.inbound_rules }}" 
       loop: "{{ sg_components }}"      
-
+      when: sg_action == "create"
 
     # Get all SG info
     # - name: Get All security groups
@@ -42,10 +42,9 @@
 
     - name: "Delete group by its id"
       amazon.aws.ec2_security_group:
-        group_id: "{{item}}"
+        group_name: "{{ app_name }}-{{item}}"
         state: absent
-      loop:
-      - "sg-0f0ac6e1832b1447b"
+      loop: "{{ sg_components }}"  
       when: sg_action == "delete"  
 
 
