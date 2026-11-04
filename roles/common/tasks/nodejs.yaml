@@ -1,0 +1,10 @@
+- name: Disable default node js
+  command: dnf module disable nodejs -y
+
+- name: Enable nodejs 24
+  command: dnf module enable nodejs:24 -y
+
+- name: install Nodejs
+  dnf:
+    name: nodejs
+    state: present 

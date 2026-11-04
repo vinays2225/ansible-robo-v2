@@ -1,0 +1,9 @@
+- name: Demon reload service
+  systemd_service:
+    daemon_reload: true
+
+- name: start and enable service
+  service:
+    name: {{ component }}
+    state: restarted
+    enabled: yes  
