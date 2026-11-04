@@ -1,21 +1,22 @@
-- name: enable maven 3.9
-  command: dnf module enable maven:3.9 -y
+- name: Enable Maven 3.9 module stream
+  ansible.builtin.dnf:
+    name: "maven:3.9"
+    state: enabled
 
-- name: install maven and java25
-  dnf:
+- name: Install Maven, Java 25, and MySQL client
+  ansible.builtin.dnf:
     name:
-    - maven 
-    - maven-openjdk25 # installing this so that we no need to set JAVA_HOME again
-    - mysql
+      - maven
+      - maven-openjdk25
+      - mysql
     state: present
 
-- name: install dependencies
-  command: mvn clean package
-  args:
+- name: Install dependencies and package application
+  ansible.builtin.command:
+    cmd: mvn clean package
     chdir: /app
 
 - name: Move and rename {{ component }} jar
   ansible.builtin.command:
     cmd: mv /app/target/{{ component }}.jar /app/{{ component }}.jar
-  # Ensures the task only runs if the source file actually exists
-  creates: /app/{{ component }}.jar 
+    creates: /app/{{ component }}.jar
