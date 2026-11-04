@@ -1,3 +1,8 @@
+#nodejs setup
+- name: install Node JS
+  include_role:
+    name: common
+    tasks_from: nodejs.yaml
 #App setup
 - name: App Setup
   include_role:
@@ -5,11 +10,7 @@
     tasks_from: app-setup.yaml
  
 
-#nodejs setup
-- name: install Node JS
-  include_role:
-    name: common
-    tasks_from: nodejs.yaml
+
 
 
 #Systemd service  
