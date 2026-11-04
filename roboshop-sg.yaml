@@ -16,11 +16,11 @@
       when: sg_action == "create"
 
     #Get all SG info
-    - name: Get  security groups
-      amazon.aws.ec2_security_group_info:
-        filters:
-          group-name: "{{app_name}}-redis"
-      register: item_vpc_id
+    # - name: Get  security groups
+    #   amazon.aws.ec2_security_group_info:
+    #     filters:
+    #       group-name: "{{app_name}}-redis"
+    #   register: item_vpc_id
 
     # - name: Display result of SG
     #   debug:
@@ -42,9 +42,10 @@
 
     - name: "Delete group by its id"
       amazon.aws.ec2_security_group:
-        group_name: "{{ app_name }}-{{item}}"
+        group_name: "{{item}}"
         state: absent
-      loop: "{{ sg_components }}"  
+      loop:
+      
       when: sg_action == "delete"  
 
 
