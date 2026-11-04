@@ -42,7 +42,7 @@
 
     - name: "Delete group by its id"
       amazon.aws.ec2_security_group:
-        group_name: "{{item}}"
+        group_id: "{{item}}"
         state: absent
       loop:
       - "sg-0d970734a7ec0c7d4"
