@@ -7,4 +7,9 @@
 - name: install Nodejs
   dnf:
     name: nodejs
-    state: present 
+    state: present  
+
+
+- name: Install dependencies
+  community.general.npm:
+    path: /app        

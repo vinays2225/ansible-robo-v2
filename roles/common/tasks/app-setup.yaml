@@ -32,7 +32,3 @@
     src: "/tmp/{{ component }}.zip"
     dest: /app 
     remote_src: yes #. if no ansible checking in his server location
-
-- name: Install dependencies
-  community.general.npm:
-    path: /app 
