@@ -1,7 +1,5 @@
-- name: Enable Maven 3.9 module stream
-  ansible.builtin.dnf:
-    name: "maven:3.9"
-    state: present
+- name: enable maven 3.9
+  command: dnf module enable maven:3.9 -y
 
 - name: Install Maven, Java 25, and MySQL client
   ansible.builtin.dnf:
