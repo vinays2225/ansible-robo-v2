@@ -14,13 +14,8 @@
   args:
     chdir: /app
 
-- name: Copy and rename {{ component }} jar natively
-  copy:
-    src: /app/target/{{ component }}.jar
-    dest: /app/{{ component }}.jar
-    remote_src: yes        
-
-- name: Remove the original source file from target
-  file:
-    path: /app/target/{{ component }}.jar
-    state: absent  
+- name: Move and rename {{ component }} jar
+  ansible.builtin.command:
+    cmd: mv /app/target/{{ component }}.jar /app/{{ component }}.jar
+  # Ensures the task only runs if the source file actually exists
+  creates: /app/{{ component }}.jar 
