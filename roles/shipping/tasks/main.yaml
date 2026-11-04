@@ -1,12 +1,14 @@
+- name: appsetup
+  include_role:
+    name: common
+    tasks_from: app-setup.yaml
+
+
 - name: Install maven and java25
   include_role:
     name: common
     tasks_from: java.yaml
 
-- name: appsetup
-  include_role:
-    name: common
-    tasks_from: app-setup.yaml
 
 
 
