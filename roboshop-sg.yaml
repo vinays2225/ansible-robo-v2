@@ -45,17 +45,7 @@
         group_id: "{{item}}"
         state: absent
       loop:
-      - "sg-0d970734a7ec0c7d4"
-      - "sg-087d2e73f585b0083"
-      - "sg-0d2d0eeb5474f36c8"
-      - "sg-0f0cc5a33f0d2320f"
-      - "sg-012c6a6a29400278c"
-      - "sg-09846db34cfb1793f"
-      - "sg-0a2eab51757e41d00"
-      - "sg-0e9227070c329d4c7"
-      - "sg-0019077d20946bf55"
-      - "sg-04b00cd7bc4aaa11b"
-      - "sg-048c159eab05a7b08"
+        
       when: sg_action == "delete"  
 
 
