@@ -47,8 +47,11 @@ sg_components:
       - { proto: "tcp", from_port: 80, to_port: 80, cidr_ip: 0.0.0.0/0, rule_desc: "Allow public from frontend" }
 
 
-ansible_user: ec2-user
-ansible_password: DevOps321
+#ansible_user: "{{ lookup('amazon.aws.aws_secret', 'dev/roboshop/ec2') | from_json | json_query('ansible_user') }}"
+#ansible_password: "{{ lookup('amazon.aws.aws_secret', 'dev/roboshop/ec2') | from_json | json_query('ansible_password') }}"
+ansible_user: "{{ lookup('amazon.aws.aws_secret', 'dev/roboshop/ec2') | from_json | json_query('ansible_user') }}"
+ansible_password: "{{ lookup('amazon.aws.aws_secret', 'dev/roboshop/ec2') | from_json | json_query('ansible_password') }}"
+
 mongodb_host: mongodb.yanvisol.online
 redis_host: redis.yanvisol.online
 mysql_host: mysql.yanvisol.online
