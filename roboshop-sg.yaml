@@ -45,6 +45,7 @@
         group_id: "{{item}}"
         state: absent
       loop:
+       
         
       when: sg_action == "delete"  
 
